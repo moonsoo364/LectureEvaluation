@@ -32,8 +32,8 @@ public class UserDAO {
 			e.printStackTrace();
 		}finally {
 			try {if(conn!=null)conn.close();} catch (Exception e) {e.printStackTrace();}
-			try {if(pstmt!=null)conn.close();} catch (Exception e) {e.printStackTrace();}
-			try {if(rs!=null)conn.close();} catch (Exception e) {e.printStackTrace();}
+			try {if(pstmt!=null)pstmt.close();} catch (Exception e) {e.printStackTrace();}
+			try {if(rs!=null)rs.close();} catch (Exception e) {e.printStackTrace();}
 		}
 		return -2;//DB 오류
 	}

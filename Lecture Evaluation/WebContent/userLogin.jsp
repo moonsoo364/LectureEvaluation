@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="user.UserDAO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +16,24 @@
 
 </head>
 <body>
+<%
+String userID =null;
+if(session.getAttribute("userID")!=null){
+	userID=(String) session.getAttribute("userID");
+}
+
+	/*
+boolean emailChecked = new UserDAO().getUserEmailChecked(userID);
+if(emailChecked == false){
+	PrintWriter script=response.getWriter();
+	script.println("<script>");
+	script.println("location.href='emailSendConfirm.jsp'");
+	script.println("</script>");
+	return;
+	
+} */
+System.out.printf("index에 세션되었습니다, userID=%s\n",userID);
+%>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="index.jsp">강의 평가 웹 사이트</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
@@ -21,18 +41,32 @@
 		</button>
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
-				<li class="navbar-nav mr-auto">
+				<li class="nav-item active">
 					<a class="nav-link" href="index.jsp" href="index.jsp">메인</a>
 				</li>
+			<%if(userID ==null){%>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">회원 관리
 					</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown">
 						<a class="dropdown-item" href="userLogin.jsp">로그인</a>
 						<a class="dropdown-item" href="userJoin.jsp">회원가입</a>
+					</div>
+				</li>
+			<%}else{ %>
+			<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">
+						<%=userID %>님 환영합니다!
+					</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown">
 						<a class="dropdown-item" href="userLogout.jsp">로그 아웃</a>
 					</div>
 				</li>
+						
+						
+					
+				
+			<%} %>
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
 				<input class="form-control mr-sm-2" type="search" aria-label="search">
