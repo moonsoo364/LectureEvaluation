@@ -68,7 +68,7 @@
 
 	String host = "http://localhost:8080/Lecture_Evaluation/";
 
-	String from = "aptx16hibr@gmail.com";
+	String from = "aptx15hibr@gmail.com";
 
 	String to = userDAO.getUserEmail(userID);
 
