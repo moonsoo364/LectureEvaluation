@@ -2,7 +2,7 @@ package evaluation;
 
 public class EvaluationDTO {
 	
-	int evaluationiD;
+	int evaluationID;
 	String userID;
 	String lectureName;
 	String professorName;
@@ -17,11 +17,11 @@ public class EvaluationDTO {
 	String lectureScore;
 	int likeCount;
 	
-	public int getEvaluationiD() {
-		return evaluationiD;
+	public int getEvaluationID() {
+		return evaluationID;
 	}
-	public void setEvaluationiD(int evaluationiD) {
-		this.evaluationiD = evaluationiD;
+	public void setEvaluationID(int evaluationID) {
+		this.evaluationID = evaluationID;
 	}
 	public String getUserID() {
 		return userID;
@@ -106,11 +106,11 @@ public class EvaluationDTO {
 		
 	}
 	
-	public EvaluationDTO(int evaluationiD, String userID, String lectureName, String professorName, int lectureYear,
+	public EvaluationDTO(int evaluationID, String userID, String lectureName, String professorName, int lectureYear,
 			String semesterDivide, String lectureDivide, String evaluationTitle, String evaluationContent,
 			String totalScore, String creditScore, String comfortableScore, String lectureScore, int likeCount) {
 		super();
-		this.evaluationiD = evaluationiD;
+		this.evaluationID = evaluationID;
 		this.userID = userID;
 		this.lectureName = lectureName;
 		this.professorName = professorName;

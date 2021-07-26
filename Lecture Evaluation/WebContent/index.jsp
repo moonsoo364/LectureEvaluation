@@ -119,7 +119,7 @@
 <%
 	ArrayList<EvaluationDTO> evaluationList =new ArrayList<EvaluationDTO>();
 	evaluationList =new EvaluationDAO().getList(lectureDivide, searchType, search, pageNumber);
-	System.out.printf("evaluationList=%s\n",evaluationList);
+	System.out.printf("pageNumber=%d\n",pageNumber);
 	if(evaluationList != null){
 		for (int i=0;i<evaluationList.size();i++){
 			if(i==5)break;
@@ -151,8 +151,8 @@
 						<span style="color: green;">&nbsp;(추천: <%=evaluation.getLikeCount() %>)</span>
 					</div>
 					<div class="col-3 text-right">
-						<a onclick="return confirm('추천하시겠습니까?')" href="./likeAction.jsp?evaluationID=<%=evaluation.getEvaluationiD()%>">추천</a>
-						<a onclick="return confirm('추천하시겠습니까?')" href="./deleteAction.jsp?evaluationID=<%=evaluation.getEvaluationiD()%>">삭제</a>	
+						<a onclick="return confirm('추천하시겠습니까?')" href="./likeAction.jsp?evaluationID=<%=evaluation.getEvaluationID()%>">추천</a>
+						<a onclick="return confirm('삭제하시겠습니까?')" href="./deleteAction.jsp?evaluationID=<%=evaluation.getEvaluationID()%>">삭제</a>	
 					</div>
 				</div>
 			</div>
@@ -182,11 +182,18 @@
 	}
 
 %>
-
-
 	</li>
-	
-	</ul>	
+	<li class="page-item">
+<%
+	if(evaluationList.size()<6){
+		
+%>
+	<a class="page-link disabled">다음</a>
+<%}else{ %>
+<a class="page-link" href="./index.jsp?lectureDivide=<%=URLEncoder.encode(lectureDivide, "UTF-8")%>&searchType=<%=URLEncoder.encode(searchType, "UTF-8")%>&search=<%=URLEncoder.encode(search, "UTF-8")%>&pageNumber=<%=pageNumber + 1%>">다음</a>
+<%} %>
+</li>
+</ul>	
 
 	<!-- 가입 모달 -->
 	<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
