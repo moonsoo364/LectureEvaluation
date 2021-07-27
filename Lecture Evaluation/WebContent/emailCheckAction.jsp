@@ -10,6 +10,10 @@
 	if(session.getAttribute("userID")!=null){
 		userID=(String)session.getAttribute("userID");
 	}
+	if(request.getParameter("code")!=null){
+		code=request.getParameter("code");
+	}
+	System.out.println("request.getParameter(code)="+request.getParameter("code")+"\n");
 	if(userID==null){
 		PrintWriter script =response.getWriter();
 		script.println("<script>");
@@ -20,7 +24,7 @@
 		return;
 	}
 	String userEmail =userDAO.getUserEmail(userID);
-	boolean isRight=(new SHA256().getSHA256(userEmail).equals(code)) ? true:false;
+	boolean isRight=(SHA256.getSHA256(userEmail).equals(code)) ? true:false;
 	if(isRight == true){
 		userDAO.setUserEmailChecked(userID);
 		PrintWriter script =response.getWriter();

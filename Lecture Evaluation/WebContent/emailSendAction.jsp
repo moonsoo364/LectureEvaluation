@@ -29,22 +29,21 @@
 	UserDAO userDAO = new UserDAO();
 
 	String userID = null;
+	if(session.getAttribute("ID") != null) {
 
-	if(session.getAttribute("userID") != null) {
-
-		userID = (String) session.getAttribute("userID");
+		userID = (String) session.getAttribute("ID");
 
 	}
-
+	System.out.println("userID="+userID+"\n");
+	System.out.println("session.getAttribute(ID)"+session.getAttribute("ID")+"\n");
 	if(userID == null) {
 
 		PrintWriter script = response.getWriter();
-
-		script.println("");
-
+		script.println("<script>");
+		script.println("alert('아이디를 확인하세요');");
+		script.println("history.back()");
+		script.println("</script>");
 		script.close();
-
-		return;
 
 	}
 
@@ -53,12 +52,11 @@
 	if(emailChecked == true) {
 
 		PrintWriter script = response.getWriter();
-
-		script.println("");
-
-		script.close();		
-
-		return;
+		script.println("<script>");
+		script.println("alert('이미 인증된 회원입니다.');");
+		script.println("history.back()");
+		script.println("</script>");
+		script.close();
 
 	}
 
@@ -66,9 +64,9 @@
 
 	// 사용자에게 보낼 메시지를 기입합니다.
 
-	String host = "http://localhost:8080/Lecture_Evaluation/";
-
-	String from = "aptx15hibr@gmail.com";
+	String host = "http://localhost:8080/Lecture_Evbalution/";
+	
+	String from = "aptx16hibr@gmail.com";
 
 	String to = userDAO.getUserEmail(userID);
 
@@ -76,7 +74,7 @@
 
 	String content = "다음 링크에 접속하여 이메일 확인을 진행하세요." +
 
-		"이메일 인증하기";
+		"<a href='"+host+"emailCheckAction.jsp?code=" +SHA256.getSHA256(to) + "'>이메일 인증하기'</a>";
 
 	
 
@@ -86,7 +84,7 @@
 
 	p.put("mail.smtp.user", from);
 
-	p.put("mail.smtp.host", "smtp.googlemail.com");
+	p.put("mail.smtp.host", "smtp.gmail.com");
 
 	p.put("mail.smtp.port", "465");
 
@@ -101,6 +99,11 @@
 	p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
 	p.put("mail.smtp.socketFactory.fallback", "false");
+	
+	p.put("mail.smtp.ssl.enable","true");
+	
+	p.put("mail.smtp.ssl.trust","smtp.gmail.com");
+	
 
 	 
 
@@ -131,22 +134,16 @@
 	} catch(Exception e){
 
 	    e.printStackTrace();
-
-		PrintWriter script = response.getWriter();
-
-		script.println("");
-
-		script.close();		
-
-	    return;
+	    PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('오류가 발생했습니다.');");
+		script.println("history.back()");
+		script.println("</script>");
+		script.close();
 
 	}
 
 %>
-
-
-
-
 
 
 

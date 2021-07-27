@@ -97,7 +97,9 @@ public class UserDAO {
 			pstmt.setString(1, userID);
 			rs= pstmt.executeQuery();
 			if(rs.next()) {
+				System.out.println("rs.getBoolean(1)="+rs.getBoolean(1)+"\n");
 				return rs.getBoolean(1);
+				
 			}
 			
 		}catch (Exception e) {
