@@ -3,7 +3,6 @@
 <%@page import="javax.mail.Transport"%>
 
 <%@page import="javax.mail.Message"%>
-
 <%@page import="javax.mail.Address"%>
 
 <%@page import="javax.mail.internet.InternetAddress"%>
@@ -24,20 +23,31 @@
 
 <%@page import="util.Gmail"%>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 
 <%
-
+	request.setCharacterEncoding("UTF-8");
 	UserDAO userDAO = new UserDAO();
-
 	String userID = null;
+	String userEmail =null;
 
 	if(session.getAttribute("userID") != null) {
 
 		userID = (String) session.getAttribute("userID");
 
 	}
-	request.setCharacterEncoding("UTF-8");
+	
+	if(session.getAttribute("Email") != null) {
+
+		userEmail = (String) session.getAttribute("Email");
+
+	}
+	System.out.println("------reportAction.jsp입니다-------"+"\n");
+	
+	System.out.println("userID="+userID+"\n");
+	System.out.println("userEmail="+userEmail+"\n");
+	
+	System.out.println("------reportAction.jsp입니다-------"+"\n");
 	String reportTitle =null;
 	String reportContent =null;
 	
@@ -45,39 +55,33 @@
 		reportTitle =request.getParameter("reportTitle");
 	}
 	if(request.getParameter("reportContent")!=null){
-		reportTitle=request.getParameter("reportContent");
+		reportContent=request.getParameter("reportContent");
 	}
-	if(reportContent ==null || reportTitle ==null){
+	if(reportContent ==null || reportTitle ==null) {
+
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
-		script.println("alert('신고 내용을 입력해주세요.');");
-		script.println("history.back();'");
-		script.println("/<script>");
+		script.println("alert('신고내용이 비었습니다.');");
+		script.println("history.back()");
+		script.println("</script>");
 		script.close();
+
 	}
+	System.out.println("reportTitle="+reportTitle+"\n");
+	System.out.println("reportContent="+reportContent+"\n");
 	if(userID == null) {
 
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('로그인을 해주세요');");
 		script.println("location.href='index.jsp'");
-		script.println("/<script>");
+		script.println("</script>");
 		script.close();
 
 	}
+	
 
-	boolean emailChecked = userDAO.getUserEmailChecked(userID);
-
-	if(emailChecked == true) {
-
-		PrintWriter script = response.getWriter();
-
-		script.println("");
-
-		script.close();		
-
-
-	}
+	
 
 	
 
@@ -87,7 +91,7 @@
 
 	String from = "aptx15hibr@gmail.com";
 
-	String to = "aptx15hibr@naver.com";
+	String to = userEmail;
 
 	String subject = "강의 평가 사이트에서 접수된 신고메일입니다.";
 
@@ -104,7 +108,7 @@
 
 	p.put("mail.smtp.user", from);
 
-	p.put("mail.smtp.host", "smtp.googlemail.com");
+	p.put("mail.smtp.host", "smtp.gmail.com");
 
 	p.put("mail.smtp.port", "465");
 
@@ -145,24 +149,26 @@
 	    msg.setContent(content, "text/html;charset=UTF-8");
 
 	    Transport.send(msg);
+	    
 
 	} catch(Exception e){
 
 	    e.printStackTrace();
 
 		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('에러입니다.');");
+		script.println("history.back()");
+		script.println("</script>");
+		script.close();
+		System.out.println("------메일 전송 실패-------"+"\n");
 
-		script.println("gmail오류");
+		}
+	    
+	
 
-		script.close();		
-
-	}
-	PrintWriter script = response.getWriter();
-	script.println("<script>");
-	script.println("alert('정상적으로 신고되었습니다.');");
-	script.println("history.back();");
-	script.println("</script>");
-	script.close();	
+ 
+	
 
 %>
 

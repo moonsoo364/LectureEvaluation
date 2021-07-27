@@ -6,6 +6,7 @@
 <%@ page import="evaluation.EvaluationDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
+<%@ page import="user.UserDAO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +25,10 @@
 	String lectureDivide ="전체";
 	String searchType="최신순";
 	String search="";
+	
+	
+	UserDAO userDAO =new UserDAO();
+	
 	int pageNumber=0;
 	if(request.getParameter("lectureDivide")!=null){
 		lectureDivide =request.getParameter("lectureDivide");
@@ -45,6 +50,11 @@
 	if(session.getAttribute("userID")!=null){
 		userID=(String) session.getAttribute("userID");
 	}
+	String userEmail=userDAO.getUserEmail(userID);
+	System.out.println("userID="+userID+"\n");
+	System.out.println("userEmail="+userEmail+"\n");
+	session.setAttribute("Email", userEmail);
+	
 
  	/*
 	boolean emailChecked = new UserDAO().getUserEmailChecked(userID);
