@@ -42,7 +42,7 @@ public class EvaluationDAO {
 		}
 		return -1;//DB 오류
 	}
-	
+	//찾기 기능
 	public ArrayList<EvaluationDTO> getList(String lectureDivide,String searchType,String search ,int pageNumber){
 		if(lectureDivide.equals("전체")) {
 			 lectureDivide="";
@@ -57,11 +57,15 @@ public class EvaluationDAO {
 			if(searchType.equals("최신순")) {
 				SQL="SELECT * FROM EVALUATION WHERE  lectureDivide LIKE ? AND CONCAT(lectureName,professorName,evaluationTitle,evaluationContent) LIKE"+
 						"? ORDER BY evaluationID DESC limit "+pageNumber*5+","+pageNumber*5+6;
-				System.out.printf("최신순정렬\n");
+				System.out.println("searchType="+searchType+"\n");
 			}else if(searchType.equals("추천순")) {
-				SQL="SELECT * FROM EVALUATION WHERE  lectureDivide LIKE ? AND CONCAT(lectureName,professorName,evaluationTitle,evaluationContent) LIKE"+
-						"? ORDER BY likeCount DESC limit"+pageNumber*5+","+pageNumber*5+6;
+
+				SQL = "SELECT * FROM EVALUATION WHERE lectureDivide LIKE ? AND CONCAT(lectureName, professorName, evaluationTitle, evaluationContent) LIKE ? ORDER BY likeCount DESC LIMIT "
+				+ pageNumber * 5 + ", " + pageNumber * 5 + 6;
+				System.out.println("searchType="+searchType+"\n");
+
 			}
+			System.out.println("lecturedivide="+lectureDivide+"\n");
 			conn=DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1,"%"+lectureDivide+"%");
@@ -139,7 +143,7 @@ public class EvaluationDAO {
 		}
 		return -1;//DB 오류
 	}
-	public String getUserID(String evaluationID) {
+	public String getUserID(String evaluationID) {//evaluationID 를 이용해 userID를 추출한다.
 		
 		Connection conn=null;
 		PreparedStatement pstmt=null;

@@ -23,15 +23,7 @@ if(session.getAttribute("userID")!=null){
 }
 System.out.println("userID="+userID+"\n");
 	
-/* boolean emailChecked = new UserDAO().getUserEmailChecked(userID);
-if(emailChecked == false){
-	PrintWriter script=response.getWriter();
-	script.println("<script>");
-	script.println("location.href='emailSendConfirm.jsp'");
-	script.println("</script>");
-	return;
-	
-}  */
+
 System.out.printf("index에 세션되었습니다, userID=%s\n",userID);
 %>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
